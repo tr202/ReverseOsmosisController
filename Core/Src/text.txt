@@ -1,0 +1,271 @@
+   sensorValues.timeDate = rtc;
+	  	  	  sensorValues.concentrateTDS = getTds(adcAverageValues[0]);
+			  sensorValues.permeateTDS = getTds(adcAverageValues[1]);
+			  sensorValues.reserved = (float)adcAverageValues[2];
+			  sensorValues.membranePressure = getPressure(adcAverageValues[5],25,1.13);
+			  sensorValues.waterTemp =  getTemp(adcAverageValues[3]);
+			  sensorValues.soufcePressure = getPressure(adcAverageValues[4],5,1);
+			  sensorValues.sourceFlow = frequences[0].flow;
+			  sensorValues.drainFlow = frequences[1].flow;
+			  sensorValues.recycleFlow = frequences[2].flow;
+			  sensorValues.permeateFlow = frequences[3].flow;
+			  sensorValues.userButtonS = portStates[0].pinState;
+			  sensorValues.startButtonS = portStates[1].pinState;
+			  sensorValues.stopButtonS = portStates[2].pinState;
+			  sensorValues.highLevelBulbS = portStates[3].pinState;
+			  sensorValues.lowLevelBulbS = portStates[4].pinState;
+			  sensorValues.motionSensorS = portStates[5].pinState;
+
+	  	  	  //sprintf(uartStringTimeDate,(char*)format,rtc.Hour, rtc.Min, rtc.Sec, rtc.DaysOfWeek, rtc.Month, rtc.Year);
+/*
+	 		  sprintf(lcdStringTds," Concentrate TDS %.2fppm   Permeate TDS %.2fppm " " Reserved %u ",sensorValues.concentrateTDS,sensorValues.permeateTDS,sensorValues.reserved);
+	 		  sprintf(lcdStringTemp,"Water temp %.2f*C  Source pressure %.2f bar  Membrane pressure %.2f bar ",sensorValues.waterTemp, sensorValues.soufcePressure,sensorValues.membranePressure);
+	 		  sprintf(lcdStringFlow1,"Source %.1f l/m  Drain %.1f l/m Recyle %.1f l/m Permeate %.1f l/m",sensorValues.sourceFlow,sensorValues.drainFlow,sensorValues.drainFlow,sensorValues.permeateFlow);
+	 		  sprintf(lcdStringRates,"Membrane Flow %.1f" "l/m " "Recycling rate %.1f%% ""Permeate rate %.1f%% ",sensorValues.membraneFlow,sensorValues.recyclingRate,sensorValues.permeateRate);
+	          sprintf(usartStringPortStates,"User button %u Start button %u Stop button %u High level bulb %u Low level bulb %u Motion sensor %u ",sensorValues.userButtonS,sensorValues.startButtonS,sensorValues.stopButtonS, sensorValues.highLevelBulbS,sensorValues.lowLevelBulbS,sensorValues.motionSensorS);
+*/
+ 
+ 
+ 
+ //////////////////////////////////////////////
+ 
+ float concentrateTDS;
+float permeateTDS;
+float reserved;
+float waterTemp;
+float soufcePressure;
+float membranePressure;
+float sourceFlow;
+float drainFlow;
+float recycleFlow;
+float permeateFlow;
+float membraneFlow;
+float recyclingRate;
+float permeateRate;
+ 
+ 
+ 
+ sprintf(usartStringTmp,"%02d:%02d:%02d %02d.%02d.%2d",sensorValues.timeDate.Hour, sensorValues.timeDate.Min, sensorValues.timeDate.Sec, sensorValues.timeDate.DaysOfWeek, sensorValues.timeDate.Month, sensorValues.timeDate.Year);
+		  copyArray(usartStringTmp,100);
+		  sprintf(usartStringTmp," Concentrate TDS %.2fppm   Permeate TDS %.2fppm " " Reserved %u ",sensorValues.concentrateTDS,sensorValues.permeateTDS,sensorValues.reserved);
+		  copyArray(usartStringTmp,100);
+		  sprintf(usartStringTmp,"Water temp %.2f*C  Source pressure %.2f bar  Membrane pressure %.2f bar ",sensorValues.waterTemp, sensorValues.soufcePressure,sensorValues.membranePressure);
+		  copyArray(usartStringTmp,100);
+		  sprintf(usartStringTmp,"Source %.1f l/m  Drain %.1f l/m Recyle %.1f l/m Permeate %.1f l/m",sensorValues.sourceFlow,sensorValues.drainFlow,sensorValues.drainFlow,sensorValues.permeateFlow);
+		  copyArray(usartStringTmp,100);
+		  sprintf(usartStringTmp,"Membrane Flow %.1f" "l/m " "Recycling rate %.1f%% ""Permeate rate %.1f%% ",sensorValues.membraneFlow,sensorValues.recyclingRate,sensorValues.permeateRate);
+		  copyArray(usartStringTmp,100);
+		  sprintf(usartStringTmp,"User button %u Start button %u Stop button %u High level bulb %u Low level bulb %u Motion sensor %u ",sensorValues.userButtonS,sensorValues.startButtonS,sensorValues.stopButtonS, sensorValues.highLevelBulbS,sensorValues.lowLevelBulbS,sensorValues.motionSensorS);
+		  copyArray(usartStringTmp,100);
+
+
+
+
+
+
+
+ ///////////////////////////////
+	  	 	 	 	  /*
+	  	 	 	 	  sprintf(lcdStringTds," Concentrate TDS %.2fppm   Permeate TDS %.2fppm " " Reserved %u ",sensorValues.concentrateTDS,sensorValues.permeateTDS,sensorValues.reserved);
+	  		 		  sprintf(lcdStringTemp,"Water temp %.2f*C  Source pressure %.2f bar  Membrane pressure %.2f bar ",sensorValues.waterTemp, sensorValues.soufcePressure,sensorValues.membranePressure);
+	  		 		  sprintf(lcdStringFlow1,"Source %.1f l/m  Drain %.1f l/m Recyle %.1f l/m Permeate %.1f l/m",sensorValues.sourceFlow,sensorValues.drainFlow,sensorValues.drainFlow,sensorValues.permeateFlow);
+	  		 		  sprintf(lcdStringRates,"Membrane Flow %.1f" "l/m " "Recycling rate %.1f%% ""Permeate rate %.1f%% ",sensorValues.membraneFlow,sensorValues.recyclingRate,sensorValues.permeateRate);
+	  		          sprintf(usartStringPortStates,"User button %u Start button %u Stop button %u High level bulb %u Low level bulb %u Motion sensor %u ",sensorValues.userButtonS,sensorValues.startButtonS,sensorValues.stopButtonS, sensorValues.highLevelBulbS,sensorValues.lowLevelBulbS,sensorValues.motionSensorS);
+*/
+
+////////////////////////////
+ 
+ 
+ 
+ 
+ 
+  //if(HAL_RTCEx_SetCoarseCalib(&hrtc,RTC_CALIBSIGN_POSITIVE , 126)!=HAL_OK){Error_Handler();};
+ 
+ //float hpressure = getPressure(adcAverageValues[5],25,1.13);
+	      //sendDataToUsart(getTimeU(),20);
+	     // sprintf(usartString,"%.2f %.2f %u\n%.2f %.2f %.2f\n",getTds(adcAverageValues[0]),getTds(adcAverageValues[1]),adcAverageValues[2],getTemp(adcAverageValues[3]),getPressure(adcAverageValues[4],5,1),hpressure);
+	     // usartString[32]=10;
+/*	      osDelay(100);
+	      sendDataToUsart(usartString,33);
+  	 	  sprintf(usartString,"%u %u %u\n ",portStates[0].pinState,portStates[1].pinState,portStates[2].pinState);
+	 	  usartString[5]=10;
+	 	  osDelay(100);
+	 	  sendDataToUsart(usartString,6);
+          sprintf(usartString,"%u %u %u\n",portStates[3].pinState,portStates[4].pinState,portStates[5].pinState);
+	 	  usartString[5]=10;
+	 	  osDelay(100);
+	 	  sendDataToUsart(usartString,6);
+*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // if (portStates[5].pinState!=0)
+	  //{
+		 // if(LCD_getBackLightState()==0)
+		 // {
+			//  LCD_onLed();
+
+		//  }
+		//  varTimeToBackLightOff=timeToBackLightOff;
+
+	//  }
+	  //LCD_SetPos(0,0);
+	  //uint8_t* mystr = getTime();
+	  //LCD_StringU(getTime());
+	  osDelay(100);
+      //float hpressure = getPressure(adcAverageValues[5],25,1.13);
+      //sendDataToUsart(getTimeU(),20);
+      //osDelay(100);
+      	  	// uint8_t str[10]={0};
+      	  	  //sprintf(str,"%.2f\n",hpressure);
+      	  	  //for(uint16_t i = 0;i<6;i++)
+      	  	  //{
+      	  		  //char a = str[i];
+      	  		// usartString[i]= str[i];
+      	  	  //}
+             // HAL_UART_DMAPause(&huart1);
+
+
+
+      	  	            // for(uint16_t i = 0;i<9;i++)
+      	  	      	  	 // {
+
+      	  	      	  		//  usartString[i]= mystr[i];
+//
+      	  	      	  	//  }
+      	  	  	  	  	// usartString[8]=10;
+
+      	  	  	  	  	//  uint8_t* mystr1[] =0;
+
+      	  	  	  	  	 // sprintf(mystr1,"%.2f",getTds(adcAverageValues[0]));
+
+      	  	  	  	      // for(uint16_t i = 11;i<20;i++)
+      	  	  	  	      	  	      	  	 // {
+
+      	  	  	  	      	  	      	  		//  usartString[i]= mystr1[i];
+
+      	  	  	  	      	  	      	  	//  }
+
+      	  	  	           // usartString[20]=10;
+
+      	  	//HAL_UART_Transmit_DMA(&huart1, (uint8_t*)usartString, 100);
+      	  	// HAL_UART_DMAResume(&huart1);
+
+     	     // sprintf(usartString,"%.2f %.2f %u\n%.2f %.2f %.2f\n",getTds(adcAverageValues[0]),getTds(adcAverageValues[1]),adcAverageValues[2],getTemp(adcAverageValues[3]),getPressure(adcAverageValues[4],5,1),hpressure);
+     	     // usartString[32]=10;
+     /*	      osDelay(100);
+     	      sendDataToUsart(usartString,33);
+       	 	  sprintf(usartString,"%u %u %u\n ",portStates[0].pinState,portStates[1].pinState,portStates[2].pinState);
+     	 	  usartString[5]=10;
+     	 	  osDelay(100);
+     	 	  sendDataToUsart(usartString,6);
+               sprintf(usartString,"%u %u %u\n",portStates[3].pinState,portStates[4].pinState,portStates[5].pinState);
+     	 	  usartString[5]=10;
+     	 	  osDelay(100);
+     	 	  sendDataToUsart(usartString,6);
+
+
+
+
+
+
+
+	/*  LCD_String(" ");
+	  LCD_StringU(getDate());
+	  //for(uint8_t i=0;i<frequencesLength;i++)
+
+	  //{
+		  //sprintf(lcdString,"%.1f" "L/M " "%.1f%% ""%.1f%%\n ",rates.membraneFlow,rates.recyclingRate,rates.regectionRate);
+		  //sendDataToUsart((uint8_t*)lcdString,20);
+		  //HAL_UART_Transmit_DMA(&huart1, (uint8_t*)datad, 5);
+		//sendDataToUsart((uint8_t*)lcdString, sizeof(lcdString)-1);
+		 //LCD_String(lcdString);
+
+	 // LCD_SetPos(0,1);
+//	 	  for(uint8_t i=0;i<frequencesLength;i++)
+
+	 	  //{
+	 		 // sprintf(lcdString,"%.1f\n ",frequences[i].flow);
+	 		// sendDataToUsart((uint8_t*)lcdString,sizeof(lcdString)-1);
+	 		  //LCD_String(lcdString);
+	 		  //osDelay(10);
+
+	 	  //}
+	 LCD_SetPos(0,1);
+	 sprintf(lcdString," %.2f   %.2f " " %u ",getTds(adcAverageValues[0]),getTds(adcAverageValues[1]),adcAverageValues[2]);
+	 LCD_String(lcdString);
+     float hpressure = getPressure(adcAverageValues[5],25,1.13);
+	 LCD_SetPos(0,3);
+	 sprintf(lcdString,"%.2f  %.2f   %.2f ",getTemp(adcAverageValues[3]),getPressure(adcAverageValues[4],5,1),hpressure);
+	 LCD_String(lcdString);
+*/
+////////////////////
+
+
+	  for (uint16_t i=0;i<portStatesLenght;i++)
+	 	  	 {
+	 	  		 if(portStates[i].pinState !=0)
+	 	  		 {
+	 	  			 sprintf(lcdString, "%u ",(portStates[i].pinState));
+
+	 	  			 LCD_String(lcdString);
+	 	  			 osDelay(10);
+
+	 	  		 }
+	 	  		 else
+	 	  		 {
+
+	 	  			LCD_String("  ");
+	 	  			osDelay(10);
+	 	  		 }
+	 	  	 }
+//////////////////
+
+    //osDelay(500);
+    //testRelay();
+    
+    
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    void StartInputs(void *argument)
+{
+  /* USER CODE BEGIN StartInputs */
+
+portStates[0].Pin = UserButton_Pin;
+portStates[0].Port=UserButton_GPIO_Port;
+portStates[0].activePinState = GPIO_PIN_RESET;
+portStates[0].inputName = userButton;
+portStates[1].Pin = startButton_Pin;
+portStates[1].Port =  startButton_GPIO_Port;
+portStates[1].activePinState = GPIO_PIN_RESET;
+portStates[1].inputName = startButton;
+portStates[2].Pin = stopButton_Pin;
+portStates[2].Port = stopButton_GPIO_Port;
+portStates[2].activePinState = GPIO_PIN_RESET;
+portStates[2].inputName = stopButton;
+portStates[3].Pin = HighLevelBulb_Pin;
+portStates[3].Port = HighLevelBulb_GPIO_Port;
+portStates[3].activePinState = GPIO_PIN_SET;
+portStates[3].inputName = highLevelBulb;
+portStates[4].Pin = LowLevelBulb_Pin;
+portStates[4].Port = LowLevelBulb_GPIO_Port;
+portStates[4].activePinState = GPIO_PIN_RESET;
+portStates[4].inputName = lowLevelBulb;
+portStates[5].Pin = motionSensor_Pin;
+portStates[5].Port = motionSensor_GPIO_Port;
+portStates[5].activePinState = GPIO_PIN_SET;
+portStates[5].inputName = motionSensor;
+  /* Infinite loop */
+  for(;;)
+  {
+
+	 for (uint16_t i=0;i<portStatesLenght;i++)
+	 {
+		 checkPort(&portStates[i],cycles);
+	 }
+
+osDelay(1);
+
+  }
+
+  /* USER CODE END StartInputs */
+}

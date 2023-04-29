@@ -1,3 +1,13 @@
+Untitled*
+*.launch
+Binaries/
+Includes/
+Startup/
+Drivers
+Middlewares/
+.settings/
+Debug/
+*.id
 # Prerequisites
 *.d
 
